@@ -46,6 +46,9 @@
                         <li class="nav-item">
                             <a href="{{ route('post.create') }}" class="nav-link {{ route('post.create') == request()->url() ? 'active' : ''}}">create post</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('photo.index') }}" class="nav-link {{ route('photo.index') == request()->url() ? 'active' : ''}}">photos</a>
+                        </li>
                     </ul>
                     @endauth
 

@@ -38,6 +38,34 @@
                            @enderror
 
                            <div class="m-2 w-50">
+
+                               @foreach(\App\Models\Tags::all() as $tag)
+
+                                   <div class="form-check form-check-inline">
+                                       <input class="form-check-input" type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag{{ $tag->id }}" {{ in_array($tag->id,old('tags',[])) ? 'checked' : '' }}>
+                                       <label class="form-check-label" for="{{ $tag->id }}">
+                                           {{ $tag->name }}
+                                       </label>
+                                   </div>
+
+                               @endforeach
+
+                                   @error('tags')
+                                   <p class="text-danger small">{{ $message }}</p>
+                                   @enderror
+                                   @error('tags.*')
+                                   <p class="text-danger small">{{ $message }}</p>
+                                   @enderror
+
+                           </div>
+
+{{--                           @error('photo')--}}
+
+{{--                           <p class='text-danger'>{{ $message }}</p>--}}
+
+{{--                           @enderror--}}
+
+                           <div class="m-2 w-50">
                                 <textarea  id="" cols="30" rows="5" name='description' class='form-control @error('description') is-invalid  @enderror' placeholder='enter description'>{{ old('description') }}</textarea>
                            </div>
 
@@ -79,6 +107,7 @@
                                 </div>
 
                            </div>
+
 
                        </form>
                     </div>

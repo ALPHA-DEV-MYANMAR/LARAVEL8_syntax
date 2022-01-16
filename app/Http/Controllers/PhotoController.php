@@ -20,7 +20,10 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        return 'photo';
+
+        $photos = Photo::where('user_id',auth()->id())->get();
+
+        return view('photo.index',compact('photos'));
     }
 
     /**

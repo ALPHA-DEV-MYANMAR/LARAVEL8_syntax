@@ -42,6 +42,7 @@
                             <th>title</th>
                             <th>photos</th>
                             <th>description</th>
+                            <th>tag</th>
                             <th>owner</th>
                             <th>category</th>
                             <th>control</th>
@@ -70,6 +71,16 @@
 
                                 </td>
                                 <td>{{ Str::limit($post->excerpt,20) }}</td>
+                                <td>
+                                    @forelse($post->tags as $tag)
+                                        <span class="badge bg-primary small">
+                                                <i class="fas fa-hashtag"></i>
+                                                {{ $tag->name }}
+                                        </span>
+                                    @empty
+                                        There is no tags
+                                    @endforelse
+                                </td>
                                 <td>{{ $post->user->name }}</td>
                                 <td>{{ $post->category->name }}</td>
                                 <td>

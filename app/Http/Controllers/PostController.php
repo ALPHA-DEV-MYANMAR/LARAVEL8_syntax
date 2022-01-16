@@ -47,12 +47,13 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-
         $request->validate([
             'title' => 'required|unique:posts,title|min:3',
             'description' => 'required|min:20',
             'category_id' => 'required|integer|exists:categories,id',
             'photo' => 'required',
+            "tags" => "required",
+            "tags.*" => "integer|exists:tags,id",
             'photo.*' => 'required|file|mimes:jpg,png',
         ]);
 
@@ -65,6 +66,9 @@ class PostController extends Controller
         $post->user_id = Auth::user()->id;
         $post->is_publish = true;
         $post->save();
+
+        //save tags
+        $post->tags()->attach($request->tags);
 
         if(!Storage::exists('public/thumbnail')){
             Storage::makeDirectory('public/thumbnail');
@@ -126,10 +130,13 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+
         $request->validate([
             'title' => 'required|unique:posts,title,'.$post->id.'|min:3',
             'description' => 'required|min:20',
-            'category_id' => 'required|integer|exists:categories,id'
+            'category_id' => 'required|integer|exists:categories,id',
+            "tags" => "required",
+            "tags.*" => "integer|exists:tags,id"
         ]);
 
         $post->title = $request->title;
@@ -140,6 +147,8 @@ class PostController extends Controller
         $post->user_id = Auth::user()->id;
         $post->is_publish = true;
         $post->save();
+
+        $post->tags()->attach($request->tags);
 
         return redirect()->route('post.create')->with('status','successfully updated post!');
     }

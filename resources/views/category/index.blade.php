@@ -15,6 +15,7 @@
                         <tr>
                             <th>id</th>
                             <th>name</th>
+                            <th>photo</th>
                             <th>control</th>
                             <th>time</th>
                         </tr>
@@ -26,6 +27,15 @@
                             <tr>
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->name }}</td>
+                                <td>
+                                    @forelse($category->photos as $photo)
+                                        <img src="{{ asset('storage/thumbnail/'.$photo->name) }}" width='30' class='img-thumbnail' alt="">
+                                    @empty
+
+                                        <p>There is no photos</p>
+                                    @endforelse
+
+                                </td>
                                 <td>
 
                                     <div class="d-flex justify-content-center align-items-center">

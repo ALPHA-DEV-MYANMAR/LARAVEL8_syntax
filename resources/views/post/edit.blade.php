@@ -43,6 +43,7 @@
                         @endforeach
                         {{--image delete--}}
 
+
                         {{--image upload--}}
 {{--                            <form action="{{ route('photo.store') }}" method="POST" id="photoUploadForm" enctype="multipart/form-data">--}}
 {{--                                @csrf--}}
@@ -87,6 +88,27 @@
                                 <textarea form="UpdatePostForm" type="text" rows="10" class="form-control @error('description') is-invalid @enderror" name="description">{{ old('description',$post->description) }}</textarea>
                                 @error('description')
                                 <p class="text-danger small">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                {{--tags--}}
+                                @foreach(\App\Models\Tags::all() as $tag)
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" form="UpdatePostForm" name="tags[]" value="{{ $tag->id }}" id="tag{{ $tag->id }}" {{ in_array($tag->id,old('tags', $post->tags->pluck("id")->toArray() )) ? 'checked' : '' }}  >
+                                        <label class="form-check-label" for="{{ $tag->id }}">
+                                            {{ $tag->name }}
+                                        </label>
+                                    </div>
+
+                                @endforeach
+                                {{-- tags--}}
+
+                                @error('tags')
+
+                                <p class="text-danger small">{{ $message }}</p>
+
                                 @enderror
                             </div>
 
