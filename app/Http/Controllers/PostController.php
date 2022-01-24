@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\Photo;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -36,6 +37,9 @@ class PostController extends Controller
      */
     public function create()
     {
+
+        Gate::authorize('create',Post::class);
+
         return view('post.create');
     }
 
@@ -47,15 +51,18 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $request->validate([
-            'title' => 'required|unique:posts,title|min:3',
-            'description' => 'required|min:20',
-            'category_id' => 'required|integer|exists:categories,id',
-            'photo' => 'required',
-            "tags" => "required",
-            "tags.*" => "integer|exists:tags,id",
-            'photo.*' => 'required|file|mimes:jpg,png',
-        ]);
+
+//        Gate::authorize('create',Post::class);
+
+//        $request->validate([
+//            'title' => 'required|unique:posts,title|min:3',
+//            'description' => 'required|min:20',
+//            'category_id' => 'required|integer|exists:categories,id',
+//            'photo' => 'required',
+//            "tags" => "required",
+//            "tags.*" => "integer|exists:tags,id",
+//            'photo.*' => 'required|file|mimes:jpg,png',
+//        ]);
 
         $post = new Post();
         $post->title = $request->title;
@@ -118,6 +125,13 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+
+//        if (! Gate::allows('update-post', $post)) {
+//            abort(403);
+//        }
+
+        Gate::authorize('update', $post);
+
         return view('post.edit',compact('post'));
     }
 
@@ -131,13 +145,15 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, Post $post)
     {
 
-        $request->validate([
-            'title' => 'required|unique:posts,title,'.$post->id.'|min:3',
-            'description' => 'required|min:20',
-            'category_id' => 'required|integer|exists:categories,id',
-            "tags" => "required",
-            "tags.*" => "integer|exists:tags,id"
-        ]);
+//        Gate::authorize('update', $post);
+
+//        $request->validate([
+//            'title' => 'required|unique:posts,title,'.$post->id.'|min:3',
+//            'description' => 'required|min:20',
+//            'category_id' => 'required|integer|exists:categories,id',
+//            "tags" => "required",
+//            "tags.*" => "integer|exists:tags,id"
+//        ]);
 
         $post->title = $request->title;
         $post->slug = Str::slug($request->title);
@@ -161,6 +177,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+
+        Gate::authorize('delete', $post);
+
         foreach ($post->photos as $photo){
             //file delete
             Storage::delete('public/photos/'.$photo->name);

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class StorePostRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class StorePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Gate::authorize('create',Post::class);;
     }
 
     /**
@@ -24,7 +26,19 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|unique:posts,title|min:3',
+            'description' => 'required|min:20',
+            'category_id' => 'required|integer|exists:categories,id',
+            'photo' => 'required',
+            "tags" => "required",
+            "tags.*" => "integer|exists:tags,id",
+            'photo.*' => 'required|file|mimes:jpg,png',
+        ];
+    }
+
+    public function messages(){
+        return [
+            'title.required' => 'please add the title'
         ];
     }
 }

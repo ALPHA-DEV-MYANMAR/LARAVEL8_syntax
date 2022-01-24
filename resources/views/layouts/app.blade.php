@@ -43,9 +43,11 @@
                         <li class="nav-item">
                             <a href="{{ route('post.index') }}" class="nav-link {{ route('post.index') == request()->url() ? 'active' : ''}}">all posts</a>
                         </li>
+                        @can('create',\App\Models\Post::class)
                         <li class="nav-item">
                             <a href="{{ route('post.create') }}" class="nav-link {{ route('post.create') == request()->url() ? 'active' : ''}}">create post</a>
                         </li>
+                        @endcan
                         <li class="nav-item">
                             <a href="{{ route('photo.index') }}" class="nav-link {{ route('photo.index') == request()->url() ? 'active' : ''}}">photos</a>
                         </li>
@@ -105,32 +107,32 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        @if(session('status'))
-            <script>
-                let timerInterval
-                Swal.fire({
-                    title: '{{ session('status') }}',
-                    html: 'loading',
-                    timer: 2000,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        Swal.showLoading()
-                        const b = Swal.getHtmlContainer().querySelector('b')
-                        timerInterval = setInterval(() => {
-                            b.textContent = Swal.getTimerLeft()
-                        }, 100)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                    }
-                }).then((result) => {
-                    /* Read more about handling dismissals below */
-                    if (result.dismiss === Swal.DismissReason.timer) {
-                        console.log('I was closed by the timer')
-                    }
-                })
-            </script>
-        @endif
+{{--        @if(session('status'))--}}
+{{--            <script>--}}
+{{--                let timerInterval--}}
+{{--                Swal.fire({--}}
+{{--                    title: '{{ session('status') }}',--}}
+{{--                    html: 'loading',--}}
+{{--                    timer: 2000,--}}
+{{--                    timerProgressBar: true,--}}
+{{--                    didOpen: () => {--}}
+{{--                        Swal.showLoading()--}}
+{{--                        const b = Swal.getHtmlContainer().querySelector('b')--}}
+{{--                        timerInterval = setInterval(() => {--}}
+{{--                            b.textContent = Swal.getTimerLeft()--}}
+{{--                        }, 100)--}}
+{{--                    },--}}
+{{--                    willClose: () => {--}}
+{{--                        clearInterval(timerInterval)--}}
+{{--                    }--}}
+{{--                }).then((result) => {--}}
+{{--                    /* Read more about handling dismissals below */--}}
+{{--                    if (result.dismiss === Swal.DismissReason.timer) {--}}
+{{--                        console.log('I was closed by the timer')--}}
+{{--                    }--}}
+{{--                })--}}
+{{--            </script>--}}
+{{--        @endif--}}
 
         <script>
             new VenoBox({

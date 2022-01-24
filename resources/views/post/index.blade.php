@@ -18,7 +18,9 @@
 
                 <div class="d-flex justify-content-between">
                     <h3>Post lists</h3>
-                    <a href="{{ route('post.create') }}" class="btn btn-outline-primary">create</a>
+                    @can('create',\App\Models\Post::class)
+                    <a href="{{ route('post.create') }}" class="btn btn-primary">create</a>
+                    @endcan
                 </div>
 
 
@@ -86,7 +88,6 @@
                                 <td>
                                     <div class="d-flex justify-content-center align-items-center">
 
-
                                         <div class="btn-group" role="group" aria-label="Basic example">
                                             <Button class="btn btn-outline-info btn-sm">
                                                 <a href="{{ route('post.show',$post->id) }}" >
@@ -94,15 +95,19 @@
                                                 </a>
                                             </Button>
 
+                                            @can('update',$post)
                                             <button class='btn btn-outline-primary btn-sm'>
                                                 <a href="{{ route('post.edit',$post->id) }}" >
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                             </button>
+                                            @endcan
 
+                                            @can('delete',$post)
                                             <button class='btn btn-outline-primary btn-sm' form='deleteForm' >
                                                 <i class="fas fa-trash"></i>
                                             </button>
+                                            @endcan
 
                                         </div>
 
