@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('test',function(){
+    return dd('Middleware Test');
+})->middleware('isAdmin');
+
 Auth::routes();
 
 Route::middleware('auth')->group(function(){
