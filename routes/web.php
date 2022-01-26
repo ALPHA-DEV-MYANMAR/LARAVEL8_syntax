@@ -31,4 +31,5 @@ Route::middleware('auth')->group(function(){
     Route::resource('/post',PostController::class);
     Route::resource('/photo',\App\Http\Controllers\PhotoController::class);
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('/tag',\App\Http\Controllers\TagsController::class);
 });

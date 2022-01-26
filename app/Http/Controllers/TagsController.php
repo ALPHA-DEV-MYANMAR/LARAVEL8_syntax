@@ -15,7 +15,8 @@ class TagsController extends Controller
      */
     public function index()
     {
-        //
+        $tags = Tags::paginate(5);
+        return view('tag.index',compact('tags'));
     }
 
     /**
@@ -25,7 +26,8 @@ class TagsController extends Controller
      */
     public function create()
     {
-
+        $tags = Tags::latest("id")->limit(5)->get();
+        return view('tag.create',compact('tags'));
     }
 
     /**
@@ -36,7 +38,17 @@ class TagsController extends Controller
      */
     public function store(StoreTagsRequest $request)
     {
-        //
+        $request->validate([
+            "name" => "required|unique:tags,name|min:3"
+        ]);
+
+        $tag = new Tags();
+        $tag->name = $request->name;
+        $tag->user_id = auth()->id();
+        $tag->save();
+
+        return redirect()->back()->with('status','Successfully created tag');
+
     }
 
     /**
@@ -56,9 +68,8 @@ class TagsController extends Controller
      * @param  \App\Models\Tags  $tags
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tags $tags)
+    public function edit(Tags $tags,$id)
     {
-        //
     }
 
     /**
@@ -79,8 +90,12 @@ class TagsController extends Controller
      * @param  \App\Models\Tags  $tags
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tags $tags)
+    public function destroy(Tags $tags,$id)
     {
-        //
+
+        Tags::where('id',$id)->delete();
+
+        return redirect()->back()->with('status',"Tag Deleted");
     }
+
 }

@@ -9,6 +9,7 @@
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 @import '~venobox/dist/venobox.min.css';
 
+
 .uploader-ui{
     width: 100px;
     height: 100px;
@@ -20,4 +21,10 @@
 
 .thumbnail-img{
     margin-left: -20px;
+}
+
+.active{
+    border-radius: 10px;
+    color: white !important;
+    background-color: #3b82f6;
 }

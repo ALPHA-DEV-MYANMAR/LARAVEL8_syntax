@@ -11305,3 +11305,9 @@ textarea.form-control-lg {
 .thumbnail-img {
   margin-left: -20px;
 }
+
+.active {
+  border-radius: 10px;
+  color: white !important;
+  background-color: #3b82f6;
+}

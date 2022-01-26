@@ -1,50 +1,28 @@
 @extends('layouts.app')
 @section('content')
 
-
     <div class="container">
         <div class="row">
             <div class="col-12">
-
                 <div class="card">
-
                     <div class="card-header">
-                        {{ $post->title }}
+                        My Account
                     </div>
                     <div class="card-body">
-
-                        <div class="">
-                            User Name is - {{ $post->user->name }} <br>
-                            Email is - {{ $post->user->email }}
+                        <div class="text-center">
+                            <div class="h5 fw-bolder mt-2">
+                                Name ~ {{ $post->user->name }}
+                            </div>
+                            <div class="h5 fw-bolder mt-2">
+                                Email ~ {{ $post->user->email }}
+                            </div>
+                            <div class="h5 fw-bolder mt-2">
+                                Permission ~ {{ $post->user->role }}
+                            </div>
                         </div>
-
-                        <div>
-                            Category is - {{ $post->category->name }}
-                        </div>
-
-                        <p>
-                            {{ $post->description }}
-                        </p>
-
-                        @foreach($post->photos as $photo)
-                            <img src="{{ asset('storage/thumbnail/'.$photo->name) }}" alt="">
-                        @endforeach
-
-
-
-                        <hr>
-
-                        <div class="">
-                            <a href="{{ route('post.create') }}" class="btn btn-primary">
-                                Create Post
-                            </a>
-                            <a href="{{ route('post.index') }}" class="btn btn-outline-primary">
-                                All Post
-                            </a>
-                        </div>
-
                     </div>
-
+                    <div class="card-footer">
+                    </div>
                 </div>
 
             </div>

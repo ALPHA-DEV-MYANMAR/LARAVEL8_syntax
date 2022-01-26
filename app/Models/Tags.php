@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Tags extends Model
 {
     use HasFactory;
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
 }

@@ -35,21 +35,27 @@
                     @auth
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="{{ route('category.index') }}" class="nav-link {{ route('category.index') == request()->url() ? 'active' : '' }}">all categories</a>
+                            <a href="{{ route('category.index') }}" class="nav-link {{ route('category.index') == request()->url() ? 'active' : '' }}">Category</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('category.create') }}" class="nav-link {{ route('category.create') == request()->url() ? 'active' : ''}}">create category</a>
+                            <a href="{{ route('category.create') }}" class="nav-link {{ route('category.create') == request()->url() ? 'active' : ''}}">Create Category</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('post.index') }}" class="nav-link {{ route('post.index') == request()->url() ? 'active' : ''}}">all posts</a>
+                            <a href="{{ route('post.index') }}" class="nav-link {{ route('post.index') == request()->url() ? 'active' : ''}}">Posts</a>
                         </li>
                         @can('create',\App\Models\Post::class)
                         <li class="nav-item">
-                            <a href="{{ route('post.create') }}" class="nav-link {{ route('post.create') == request()->url() ? 'active' : ''}}">create post</a>
+                            <a href="{{ route('post.create') }}" class="nav-link {{ route('post.create') == request()->url() ? 'active' : ''}}">Create Post</a>
                         </li>
                         @endcan
                         <li class="nav-item">
-                            <a href="{{ route('photo.index') }}" class="nav-link {{ route('photo.index') == request()->url() ? 'active' : ''}}">photos</a>
+                            <a href="{{ route('tag.index') }}" class="nav-link {{ route('tag.index') == request()->url() ? 'active' : ''}}">Tags</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('tag.create') }}" class="nav-link {{ route('tag.create') == request()->url() ? 'active' : ''}}">Tag Create</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('photo.index') }}" class="nav-link {{ route('photo.index') == request()->url() ? 'active' : ''}}">My Photos</a>
                         </li>
                     </ul>
                     @endauth
@@ -107,32 +113,25 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{{--        @if(session('status'))--}}
-{{--            <script>--}}
-{{--                let timerInterval--}}
-{{--                Swal.fire({--}}
-{{--                    title: '{{ session('status') }}',--}}
-{{--                    html: 'loading',--}}
-{{--                    timer: 2000,--}}
-{{--                    timerProgressBar: true,--}}
-{{--                    didOpen: () => {--}}
-{{--                        Swal.showLoading()--}}
-{{--                        const b = Swal.getHtmlContainer().querySelector('b')--}}
-{{--                        timerInterval = setInterval(() => {--}}
-{{--                            b.textContent = Swal.getTimerLeft()--}}
-{{--                        }, 100)--}}
-{{--                    },--}}
-{{--                    willClose: () => {--}}
-{{--                        clearInterval(timerInterval)--}}
-{{--                    }--}}
-{{--                }).then((result) => {--}}
-{{--                    /* Read more about handling dismissals below */--}}
-{{--                    if (result.dismiss === Swal.DismissReason.timer) {--}}
-{{--                        console.log('I was closed by the timer')--}}
-{{--                    }--}}
-{{--                })--}}
-{{--            </script>--}}
-{{--        @endif--}}
+        @if(session('status'))
+            <script>
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: '{{ session('status') }}'
+                })
+            </script>
+        @endif
 
         <script>
             new VenoBox({
