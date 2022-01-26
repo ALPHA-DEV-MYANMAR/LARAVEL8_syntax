@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\TagsController;
+use App\Http\Controllers\UserController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\CategoryController;
 use \App\Http\Controllers\PostController;
@@ -17,19 +21,31 @@ use \App\Http\Controllers\HomeController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $posts = Post::when(isset(request()->search),function ($query){
+        $search = request()->search;
+        $query->where('title',"LIKE","%$search%")
+            ->orWhere('description',"LIKE","%$search%");
+    })->latest('id')->paginate(5);
+    return view('post.index',compact('posts'));
+})->name('welcome');
 
 Route::get('test',function(){
-    return dd('Middleware Test');
+    return 'Hello world';
 })->middleware('isAdmin');
 
 Auth::routes();
 
 Route::middleware('auth')->group(function(){
-    Route::resource('/category',CategoryController::class);
-    Route::resource('/post',PostController::class);
-    Route::resource('/photo',\App\Http\Controllers\PhotoController::class);
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::resource('/tag',\App\Http\Controllers\TagsController::class);
+    Route::resource('category',CategoryController::class);
+    Route::resource('post',PostController::class);
+    Route::resource('photo',PhotoController::class);
+    Route::get('home', [HomeController::class, 'index'])->name('home');
+    Route::resource('tag',TagsController::class);
+    Route::resource('user',UserController::class );
+});
+
+Route::middleware('isAdmin')->group(function(){
+    Route::resource('category',CategoryController::class);
+    Route::resource('tag',TagsController::class);
+    Route::resource('user',UserController::class );
 });

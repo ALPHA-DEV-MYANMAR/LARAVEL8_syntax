@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,7 +24,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $posts = Post::when(isset(request()->search),function ($query){
+            $search = request()->search;
+            $query->where('title',"LIKE","%$search%")
+                ->orWhere('description',"LIKE","%$search%");
+
+        })->latest('id')->paginate(5);
+        return view('post.index',compact('posts'));
 //            return config('my.gf');
     }
 

@@ -26,7 +26,6 @@
                         <p class="text-danger small">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="card-footer"></div>
                 </div>
             </div>
         </div>

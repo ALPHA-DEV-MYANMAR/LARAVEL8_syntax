@@ -63,7 +63,7 @@ class PhotoController extends Controller
                 $photo->storeAs('public/photos',$newName);
 
                 $img = Image::make($photo);
-                $img->fit('50','50');
+                $img->fit('500','500');
                 $img->save('storage/thumbnail/'.$newName);
 
                 //save on db

@@ -8,6 +8,7 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 @import '~venobox/dist/venobox.min.css';
+@import "~animate.css/animate.min.css";
 
 
 .uploader-ui{
@@ -24,7 +25,21 @@
 }
 
 .active{
-    border-radius: 10px;
-    color: white !important;
-    background-color: #3b82f6;
+    border-radius: 15px;
+    color: #3b82f6 !important;
+    font-weight: bold;
+    border: 2px solid #3b82f6;
+}
+
+.my-photo{
+    transition: 0.5s;
+    border-radius: 5px;
+    box-shadow: 1.0px 1.9px 1.9px hsl(0deg 0% 0% / 0.47);
+    margin: 5px;
+}
+
+.my-photo:hover{
+    transform: translateY(-10px);
+    box-shadow: 4.3px 8.6px 8.6px hsl(0deg 0% 0% / 0.37);
+
 }

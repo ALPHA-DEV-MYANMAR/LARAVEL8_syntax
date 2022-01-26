@@ -5,15 +5,16 @@
         <div class="row">
             <div class="col-12">
 
-                <x-alert type="primary" message="Aung Paing Soe lay"/>
-
+{{--                <x-alert type="primary" message="Aung Paing Soe lay"/>--}}
 {{--                {{ dd(config('my.gf')) }}--}}
+{{--                {{ $cat }}--}}
+{{--                <br>--}}
+{{--                @aps--}}
 
-                {{ $cat }}
+                @foreach(Auth()->user()->roles as $role)
+                    {{ $role->name }}
+                @endforeach
 
-                <br>
-
-                @aps
 
             </div>
         </div>

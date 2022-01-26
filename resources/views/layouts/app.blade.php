@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Blog') }}</title>
 
 
 
@@ -21,10 +21,10 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand" href="{{ route('post.index') }}">
+                    Blog
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -35,25 +35,36 @@
                     @auth
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="{{ route('category.index') }}" class="nav-link {{ route('category.index') == request()->url() ? 'active' : '' }}">Category</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('category.create') }}" class="nav-link {{ route('category.create') == request()->url() ? 'active' : ''}}">Create Category</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{ route('post.index') }}" class="nav-link {{ route('post.index') == request()->url() ? 'active' : ''}}">Posts</a>
                         </li>
                         @can('create',\App\Models\Post::class)
-                        <li class="nav-item">
-                            <a href="{{ route('post.create') }}" class="nav-link {{ route('post.create') == request()->url() ? 'active' : ''}}">Create Post</a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="{{ route('post.create') }}" class="nav-link {{ route('post.create') == request()->url() ? 'active' : ''}}">Create Post</a>
+                            </li>
                         @endcan
-                        <li class="nav-item">
-                            <a href="{{ route('tag.index') }}" class="nav-link {{ route('tag.index') == request()->url() ? 'active' : ''}}">Tags</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('tag.create') }}" class="nav-link {{ route('tag.create') == request()->url() ? 'active' : ''}}">Tag Create</a>
-                        </li>
+
+                        @foreach(auth()->user()->roles as $role)
+                            @if($role->name === 'admin')
+                                <li class="nav-item">
+                                    <a href="{{ route('user.index') }}" class="nav-link {{ route('user.index') == request()->url() ? 'active' : '' }}">Users</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('category.index') }}" class="nav-link {{ route('category.index') == request()->url() ? 'active' : '' }}">Category</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('category.create') }}" class="nav-link {{ route('category.create') == request()->url() ? 'active' : ''}}">Create Category</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('tag.index') }}" class="nav-link {{ route('tag.index') == request()->url() ? 'active' : ''}}">Tags</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('tag.create') }}" class="nav-link {{ route('tag.create') == request()->url() ? 'active' : ''}}">Tag Create</a>
+                                </li>
+                            @endif
+                        @endforeach
+
                         <li class="nav-item">
                             <a href="{{ route('photo.index') }}" class="nav-link {{ route('photo.index') == request()->url() ? 'active' : ''}}">My Photos</a>
                         </li>

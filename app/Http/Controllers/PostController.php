@@ -90,7 +90,7 @@ class PostController extends Controller
                 $photo->storeAs('public/photos',$newName);
 
                 $img = Image::make($photo);
-                $img->fit('200','200');
+                $img->fit('500','500');
                 $img->save('storage/thumbnail/'.$newName);
 
                 //save on db
@@ -163,6 +163,9 @@ class PostController extends Controller
         $post->user_id = Auth::user()->id;
         $post->is_publish = true;
         $post->save();
+
+        // delete all record form pivot
+        $post->tags()->detach();
 
         $post->tags()->attach($request->tags);
 
