@@ -95,13 +95,13 @@
                                                 @endcan
 
                                                 @can('delete',$post)
-                                                    <button class='btn btn-outline-primary btn-sm' form='deleteForm' >
+                                                    <button class='btn btn-outline-primary btn-sm' form='deleteForm{{ $post->id }}' >
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 @endcan
 
                                             </div>
-                                            <form action="{{ route('post.destroy',$post) }}" id='deleteForm' method="post">
+                                            <form action="{{ route('post.destroy',$post) }}" id='deleteForm{{  $post->id  }}' method="post">
                                                 @csrf
                                                 @method('delete')
                                             </form>
